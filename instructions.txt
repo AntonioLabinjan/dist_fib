@@ -1,0 +1,26 @@
+""" GPT
+Mini distribuirani sustav u jednom fileu (server + worker + klijent + monitor)
+- Pokriva: registraciju čvorova, heartbeat, long-polling dodjelu poslova,
+  idempotentne task-ID-jeve, at-least-once isporuku, retry nakon time-outa,
+  rebalans nakon pada workera, te jednostavnu metriku.
+
+Ovisnosti:
+  pip install fastapi uvicorn httpx uvloop
+
+Primjeri pokretanja (u tri terminala):
+  1) Server:
+     python mini_dist.py server --host 127.0.0.1 --port 8000
+
+  2) Worker(i):
+     python mini_dist.py worker --server http://127.0.0.1:8000 --name worker-a
+     python mini_dist.py worker --server http://127.0.0.1:8000 --name worker-b
+
+  3) Klijent (pošalji 20 jednostavnih poslova):
+     python mini_dist.py submit --server http://127.0.0.1:8000 --n 20
+
+  4) Monitor (statistika u petlji):
+     python mini_dist.py monitor --server http://127.0.0.1:8000
+
+Task je namjerno simple: f(x) = suma prvih x Fibonaccijevih brojeva (CPU-bound ali kratko).
+
+"""
